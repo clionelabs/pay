@@ -1,6 +1,8 @@
 <template name="bill_create">
-  <h1>Create Bill</h1>
-  <div>
-    {{> quickForm collection="Bills" id="createBillForm" type="insert"}}
+  <div id="create_bill_container">
+    <h1>Create Bill</h1>
+    <div>
+      {{> quickForm schema=Schemas.CreateBillForm id="createBillForm" type="method" meteormethod="create_bill"}}
+    </div>
   </div>
 </template>

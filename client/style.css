@@ -1,3 +1,7 @@
 #main {
   margin: 20px;
 }
+
+#bills_container table tr.bill_row {
+  cursor: pointer;
+}

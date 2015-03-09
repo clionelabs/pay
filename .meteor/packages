@@ -10,5 +10,4 @@ insecure
 iron:router
 aldeed:autoform
 aldeed:simple-schema
-aldeed:collection2
 mizzao:bootstrap-3
