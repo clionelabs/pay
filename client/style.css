@@ -5,3 +5,15 @@
 #bills_container table tr.bill_row {
   cursor: pointer;
 }
+
+#bill_content_panel div.row {
+  margin-bottom: 10px;
+}
+
+#bill_content_panel span.status {
+  padding: 2px;
+}
+
+#bill_content_panel span.status.selected {
+  border: solid 1px;
+}
