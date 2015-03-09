@@ -1,3 +1,21 @@
 <template name="bills">
   <h1>Bills</h1>
+  <button class="create">Create</button>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each bills}}
+        <tr class="bill_row">
+          <td>{{title}}</td>
+          <td>{{status}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </template>
