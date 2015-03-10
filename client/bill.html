@@ -23,56 +23,58 @@
           <div class="row">
             <div class="col-sm-2">Status:</div>
             <div class="col-sm-10">
-              <span class="status{{#if is_status_reviewed}} selected{{/if}}">Reviewed</span>
+              <span class="status{{#if isStatusReviewed}} selected{{/if}}">Reviewed</span>
               <span>-></span>
-              <span class="status{{#if is_status_authorizing}} selected{{/if}}">Authorizing</span>
+              <span class="status{{#if isStatusAuthorizing}} selected{{/if}}">Authorizing</span>
               <span>-></span>
-              <span class="status{{#if is_status_authorized}} selected{{/if}}">Authorized</span>
+              <span class="status{{#if isStatusAuthorized}} selected{{/if}}">Authorized</span>
               <span>-></span>
-              <span class="status{{#if is_status_processed}} selected{{/if}}">Processed</span>
+              <span class="status{{#if isStatusProcessed}} selected{{/if}}">Processed</span>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-2">Action:</div>
             <div class="col-sm-10">
-              {{#if is_status_reviewed}}
-                <div>
-                  <p>By sending authorization email, customer will receive an email with instruction on paying money through BrainTree.</p>
-                </div>
-                <button id="send_authorize_button">Send Authorization Email</button>
-              {{/if}}
-
-              {{#if is_status_authorizing}}
-                <div>
-                  <p>It's currently waiting for customer to authorize payment through BrainTree.</p>
-                  <p>
-                    List of sent authorization(s):
-                    <ul>
-                      {{#each authorizations}}
-                        <li><a href="{{pathFor 'bill_authorization' _id}}">{{_id}}</a></li>
-                      {{/each}}
-                    </ul>
-                  </p>
-                  <p>You can resend the authorization email by clicking the following button.</p>
-                </div>
-                <button id="resend_authorize_button">Re-send Authorization Email</button>
-              {{/if}}
-
-              {{#if is_status_authorized}}
-                <div>
-                  <p>Customer has already made payment through BrainTree. It's now our job to pay the bill for them.</p>
-                  <p>When it's done, click on the following button to change the bill status to 'Completed'</p>
-                </div>
-                <button id="processed_button">Processed</button>
-              {{/if}}
-
-              {{#if is_status_processed}}
-                 <div>This bill has been completed. Good Job!</div>
-              {{/if}}
+              {{> Template.dynamic template=actionPanelName}}
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</template>
+
+<template name="reviewed_action_panel">
+  <div>
+    <p>By sending authorization email, customer will receive an email with instruction on paying money through BrainTree.</p>
+  </div>
+  <button id="send_authorize_button">Send Authorization Email</button>
+</template>
+
+<template name="authorizing_action_panel">
+  <div>
+    <p>It's currently waiting for customer to authorize payment through BrainTree.</p>
+    <p>
+      List of sent authorization(s):
+      <ul>
+        {{#each authorizations}}
+          <li><a href="{{pathFor 'bill_authorization' _id}}">{{_id}}</a></li>
+        {{/each}}
+      </ul>
+    </p>
+    <p>You can resend the authorization email by clicking the following button.</p>
+  </div>
+  <button id="resend_authorize_button">Re-send Authorization Email</button>
+</template>
+
+<template name="authorized_action_panel">
+  <div>
+    <p>Customer has already made payment through BrainTree. It's now our job to pay the bill for them.</p>
+    <p>When it's done, click on the following button to change the bill status to 'Completed'</p>
+  </div>
+  <button id="processed_button">Processed</button>
+</template>
+
+<template name="processed_action_panel">
+  <div>This bill has been completed. Good Job!</div>
 </template>

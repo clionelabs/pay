@@ -10,3 +10,4 @@ iron:router
 aldeed:autoform
 aldeed:simple-schema
 mizzao:bootstrap-3
+fourseven:scss

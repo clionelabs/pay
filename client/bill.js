@@ -1,19 +1,34 @@
 Template.bill.helpers({
-  is_status_reviewed: function() {
+  isStatusReviewed: function() {
     return this.bill.status === Bill.Status.REVIEWED;
   },
-  is_status_authorizing: function(bill) {
+  isStatusAuthorizing: function(bill) {
     return this.bill.status === Bill.Status.AUTHORIZING;
   },
-  is_status_authorized: function(bill) {
+  isStatusAuthorized: function(bill) {
     return this.bill.status === Bill.Status.AUTHORIZED;
   },
-  is_status_processed: function(bill) {
+  isStatusProcessed: function(bill) {
     return this.bill.status === Bill.Status.PROCESSED;
   },
-  is_status_cancelled: function(bill) {
+  isStatusCancelled: function(bill) {
     return this.bill.status === Bill.Status.CANCELLED;
   },
+
+  actionPanelName: function() {
+    switch(this.bill.status) {
+      case Bill.Status.REVIEWED:
+        return 'reviewed_action_panel';
+      case Bill.Status.AUTHORIZING:
+        return 'authorizing_action_panel';
+      case Bill.Status.AUTHORIZED:
+        return 'authorized_action_panel';
+      case Bill.Status.PROCESSED:
+        return 'processed_action_panel';
+      default:
+        throw 'invalid status';
+    }
+  }
 });
 
 Template.bill.events({
