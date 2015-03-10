@@ -1,0 +1,2 @@
+Template.registerHelper("Schemas", Schemas);
+

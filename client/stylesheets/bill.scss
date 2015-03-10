@@ -1,0 +1,13 @@
+#bill_content_panel {
+  div.row {
+    margin-bottom: 10px;
+  }
+
+  span.status {
+    padding: 2px;
+  }
+
+  span.status.selected {
+    border: solid 1px;
+  }
+}
