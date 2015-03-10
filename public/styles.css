@@ -257,6 +257,10 @@ a {
     padding: 10px !important;
   }
 
+  .footer {
+    padding: 10px;
+  }
+
   .invoice {
     width: 100% !important;
   }
