@@ -9,6 +9,10 @@ insecure
 iron:router
 aldeed:autoform
 aldeed:simple-schema
+aldeed:collection2
 mizzao:bootstrap-3
+meteorhacks:ssr
+email
+grigio:babel
 fourseven:scss
 hiukim:braintree-helper
