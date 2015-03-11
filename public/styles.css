@@ -137,8 +137,8 @@ a {
 .btn-primary {
   text-decoration: none;
   color: #FFF;
-  background-color: #348eda;
-  border: solid #348eda;
+  background-color: #68B90F;
+  border: solid #68B90F;
   border-width: 10px 20px;
   line-height: 2;
   font-weight: bold;
@@ -194,15 +194,19 @@ a {
   font-weight: 500;
   font-size: 16px;
 }
-.alert.alert-warning {
-  background-color: #FF9F00;
-}
 .alert.alert-bad {
   background-color: #D0021B;
 }
-.alert.alert-good {
+.alert.alert-warning {
+  background-color: #FF9F00;
+}
+.alert.alert-paid {
   background-color: #68B90F;
 }
+.alert.alert-info {
+  background-color: #006BCC;
+}
+
 
 /* -------------------------------------
     INVOICE
