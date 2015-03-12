@@ -15,3 +15,5 @@ meteorhacks:ssr
 email
 grigio:babel
 fourseven:scss
+meteorhacks:npm
+npm-container
