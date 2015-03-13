@@ -35,11 +35,23 @@ Email.sendReview = function(to) {
     "from": Email.from,
     "to": to,
     "subject": Meteor.copies.subjects.review,
-    "html": SSR.render("review")
+    "html": content
+  });
+};
+
+Email.sendBillAuth = function(bill) {
+  let content = SSR.render('authorization', bill);
+
+  Email.send({
+    "from": Email.from,
+    "to": bill.email,
+    "subject": Meteor.copies.subjects.review,
+    "html": content
   });
 };
 
 Meteor.startup(() => {
   SSR.compileTemplate("review", Assets.getText('email_templates/review.html'));
+  SSR.compileTemplate("authorization", Assets.getText('email_templates/authorization.html'));
   Email.configureEmail();
 });
