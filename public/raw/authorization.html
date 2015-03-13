@@ -17,7 +17,7 @@
 				<table class="main" width="100%" cellpadding="0" cellspacing="0">
 					<tr>
 						<td class="alert alert-info">
-							Great! We can help you with your <em>PCCW</em> bill.
+							Great! We can help you with your <b>{{title}}</b>.
 						</td>
 					</tr>
 					<tr>
@@ -26,7 +26,7 @@
 								<tr>
 									<td class="content-block">
 										<br>
-										In order to pay on your behalf, please authorize us to charge $100 for your <strong>April Subscription</strong> and $5 for <a href="http://askdouble.com/pay/faqs"> our service charge</a> on or before <strong>March 15, 2015</strong> to avoid late charges.
+										In order to pay on your behalf, please authorize us to charge {{currency}}{{amount}} for your <b>{{title}}</b> and {{currency}}{{topUpAmount}} for <a href="http://askdouble.com/pay/faqs"> our service charge</a> on or before <b>{{deadline.toLocaleDateString}}</b> to avoid late charges.
 									</td>
 								</tr>
 								<tr>
@@ -36,7 +36,7 @@
 								</tr>
 								<tr>
 									<td class="content-block">
-										<a href="http://www.mailgun.com" class="btn-primary">Authorize $105</a>
+										<a href="http://www.mailgun.com" class="btn-primary">Authorize {{currency}}{{totalAmount}}</a>
 									</td>
 								</tr>
 								<tr>

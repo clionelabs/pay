@@ -44,8 +44,8 @@ Email.sendBillAuth = function(bill) {
 
   Email.send({
     "from": Email.from,
-    "to": bill.email,
-    "subject": Meteor.copies.subjects.review,
+    "to": bill.from,
+    "subject": Meteor.copies.subjects.authorization,
     "html": content
   });
 };
