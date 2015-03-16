@@ -45,7 +45,7 @@ Email.sendPaid = function(bill) {
   Email.send({
     "from": Email.from,
     "to": bill.from,
-    "subject": Meteor.copies.subjects.authorization,
+    "subject": Meteor.copies.subjects.paid,
     "html": content
   });
 };
@@ -61,9 +61,21 @@ Email.sendBillAuth = function(bill) {
   });
 };
 
+Email.sendRejected = function(bill) {
+  let content = SSR.render('rejected');
+
+  Email.send({
+    "from": Email.from,
+    "to": bill.from,
+    "subject": Meteor.copies.subjects.rejected,
+    "html": content
+  });
+};
+
 Meteor.startup(() => {
   SSR.compileTemplate("review", Assets.getText('email_templates/review.html'));
   SSR.compileTemplate("authorization", Assets.getText('email_templates/authorization.html'));
   SSR.compileTemplate("paid", Assets.getText('email_templates/paid.html'));
+  SSR.compileTemplate("rejected", Assets.getText('email_templates/rejected.html'));
   Email.configureEmail();
 });
