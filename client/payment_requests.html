@@ -1,0 +1,37 @@
+<template name="paymentRequests">
+  <div id="payment_requests_container">
+    <div class="page-header">
+      <h1>List of Payment Requests</h1>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <button id="create_button" class="btn btn-primary">Create</button>
+      </div>
+      <div class="panel-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Amount</th>
+              <th>State</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each paymentRequests}}
+              {{> paymentRequestRow this}}
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="paymentRequestRow">
+  <tr class="payment_request_row">
+    <td>{{bill.title}}</td>
+    <td>{{bill.currency}} {{bill.amount}}</td>
+    <td>{{state}}</td>
+  </tr>
+</template>

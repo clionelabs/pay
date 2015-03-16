@@ -1,43 +1,37 @@
 Meteor.methods({
-  createBill: function(doc) {
-    var bill = _.extend({}, doc, {
-      status: Bill.Status.REVIEWED,
-      createdAt: new Date()
-    });
-    var billId = Bills.insert(bill);
-    return {
-      billId: billId
-    }
+  createPaymentRequest: function(data) {
+    var paymentRequestId = PaymentRequests.createWithBill(data);
+    return paymentRequestId;
   },
 
-  sendBillAuthorization: function(billId) {
-    var bill = Bills.findOne(billId);
-    if (!bill) {
-      throw 'Bill not found';
-    }
-    var billAuthorizationId = bill.sendAuthorization();
-    Email.sendBillAuth(bill);
-
-    return {
-      billAuthorizationId: billAuthorizationId
-    }
+  sendPaymentAuthorization: function(paymentRequestId) {
+    var paymentRequest = PaymentRequests.findOne(paymentRequestId);
+    paymentRequest.sendPaymentAuthorization();
   },
 
-  authorizeBill: function(billAuthorizationId) {
-    var billAuthorization = BillAuthorizations.findOne(billAuthorizationId);
-    if (!billAuthorization) {
-      throw 'Authorization not found';
-    }
-    var bill = Bills.findOne(billAuthorization.billId);
+  getPaymentAuthorizationToken: function() {
+    var clientToken = Payments.createAuthorizationToken(); 
+    return clientToken;
+  }, 
 
-    bill.authorize();
+  createPaymentTransaction: function(data) {
+    var payment = Payments.findOne(data.paymentId);
+    var success = payment.sale(data.nonce);
+    return success;
   },
 
-  processedBill: function(billId) {
-    var bill = Bills.findOne(billId);
-    if (!bill) {
-      throw 'Bill not found';
-    }
-    bill.processed();
-  }
+  setPaymentRequestProcessed: function(paymentRequestId) {
+    var paymentRequest = PaymentRequests.findOne(paymentRequestId);
+    paymentRequest.setProcessed();
+  },
+});
+
+Meteor.startup(function() {
+  var config = {
+    environment: Braintree.Environment.Sandbox,
+    publicKey: Meteor.settings.braintree.publicKey,
+    privateKey: Meteor.settings.braintree.privateKey,
+    merchantId: Meteor.settings.braintree.merchantId
+  };
+  BraintreeHelper.getInstance().connect(config);
 });

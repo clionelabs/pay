@@ -1,0 +1,101 @@
+<template name="paymentRequest">
+  <div id="payment_request_container">
+    <div class="page-header">
+      <button class="return_list">Back</button>
+    </div>
+
+    <div id="payment_request_content_panel" class="panel panel-default">
+      <div class="panel-heading">{{bill.title}}</div>
+      <div class="panel-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-2">Email:</div>
+            <div class="col-sm-10">{{bill.email}}</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2">Recipient:</div>
+            <div class="col-sm-10">{{bill.recipientFirstName}} {{bill.recipientLastName}}</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2">Description:</div>
+            <div class="col-sm-10">{{bill.description}}</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2">Charge:</div>
+            <div class="col-sm-10">{{bill.currency}} {{bill.amount}}</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2">Copmany:</div>
+            <div class="col-sm-10">{{bill.company}}</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2">Deadline:</div>
+            <div class="col-sm-10">{{bill.deadline}}</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2">Notes:</div>
+            <div class="col-sm-10"><pre>{{bill.notes}}</pre></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2">States:</div>
+            <div class="col-sm-10">{{state}}</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2">Logs:</div>
+            <div class="col-sm-10">
+              <ul>
+                {{#each logs}}
+                  <li>
+                    <span>{{event.createdAt}}</span> - {{> Template.dynamic template=template data=event}} 
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-2">Action:</div>
+            <div class="col-sm-10">
+              {{> Template.dynamic template=actionTemplate}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="paymentRequestReviewedAction">
+  <div>Click below button to send a payment authorization email to customer</div>
+  <button id="send_auth_button" class="btn btn-warning">Send Payment Authorization Email</button>
+</template>
+
+<template name="paymentRequestAuthorizingAction">
+  <div>An authorization email has already been sent to customer. If you want to resend a new one, click the below button</div>
+  <button id="send_auth_button" class="btn btn-warning">Re-Send Payment Authorization Email</button>
+</template>
+
+<template name="paymentRequestAuthorizedAction">
+  <div>Payment has already been authorized. Now, you can go ahead and pay the bill. Once you are done, set it as Processed</div>
+  <button id="set_processed_button" class="btn btn-success">Set Processed</button>
+</template>
+
+<template name="paymentRequestProcessedAction">
+  <div>The request has been fulfilled. Now, you can enjoy a cup of coffee</div>
+</template>
+
+<template name="paymentRequestReviewedLog">
+  <span>Reviewed</span>
+</template>
+
+<template name="paymentRequestSentAuthLog">
+  <span><a target="_blank" href="{{authorizationURL}}">Payment Authorization Sent ({{paymentId}})</a></span>
+</template>
+
+<template name="paymentRequestAuthorizedLog">
+  <span>Payment Authorized ({{paymentId}})</span>
+</template>
+
+<template name="paymentRequestProcessedLog">
+  <span>Processed</span>
+</template>

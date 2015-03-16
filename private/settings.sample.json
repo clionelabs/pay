@@ -10,5 +10,11 @@
     "mailgun" : {
       "apiKey" : "<API_KEY>"
     }
+  },
+
+  "braintree": {
+    "publicKey": "",
+    "privateKey": "",
+    "merchantId": ""
   }
 }

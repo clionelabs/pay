@@ -15,6 +15,9 @@ meteorhacks:ssr
 email
 grigio:babel
 fourseven:scss
-meteorhacks:npm
-npm-container
+hiukim:braintree-helper
 meteorhacks:subs-manager
+meteorhacks:npm
+
+
+npm-container
