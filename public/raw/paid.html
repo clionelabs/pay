@@ -25,7 +25,7 @@
 							<table width="100%" cellpadding="0" cellspacing="0">
 								<tr>
 									<td class="content-block">
-										<h1>$105 Paid to PCCW</h1>
+										<h1>{{currency}}{{totalAmount}} Paid to {{recipient}}</h1>
 									</td>
 								</tr>
 								<tr>
@@ -33,9 +33,9 @@
 										<table class="invoice">
 											<tr>
 												<td>
-													PCCW<br>
-													Invoice #12345<br>
-													March 14th 2015
+													{{recipient}}<br>
+													Invoice #{{_id}}<br>
+													{{deadline.toLocaleDateString}}
 												</td>
 											</tr>
 											<tr><br></tr>
@@ -43,16 +43,16 @@
 												<td>
 													<table class="invoice-items" cellpadding="0" cellspacing="0">
 														<tr>
-															<td>April Subscription</td>
-															<td class="alignright">$ 100.0</td>
+															<td>{{title}}</td>
+															<td class="alignright">{{currency}} {{amount}}</td>
 														</tr>
 														<tr>
 															<td>5% Service Fee</td>
-															<td class="alignright">$ 5.0</td>
+															<td class="alignright">{{currency}} {{topUpAmount}}</td>
 														</tr>
 														<tr class="total">
 															<td class="alignright" width="80%">Total</td>
-															<td class="alignright">$ 105.0</td>
+															<td class="alignright">{{currency}} {{totalAmount}}</td>
 														</tr>
 													</table>
 												</td>
