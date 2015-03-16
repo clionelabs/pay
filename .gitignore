@@ -12,5 +12,3 @@ packages/
 
 #project specific
 /private/settings.json
-/private/email_templates/*
-/server/settings.json
