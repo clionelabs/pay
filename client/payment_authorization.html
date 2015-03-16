@@ -1,0 +1,17 @@
+<template name="paymentAuthorization">
+<h1>Payment Authorization - {{_id}}</h1>
+<h2>TODO - tidy-up the look</h2>
+
+<form id="payment_authorize">
+  <input type="hidden" name="paymentId" value="{{_id}}"/>
+  <div class="row">
+    <div id="dropin" class="columns small-12"></div>
+  </div>
+  <div class="row">
+    <div class="columns small-12">
+      <button type="submit">Submit</button>
+    </div>
+  </div>
+</form>
+</template>
+

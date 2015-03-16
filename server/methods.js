@@ -1,4 +1,14 @@
 Meteor.methods({
+  createPaymentRequest: function(data) {
+    var paymentRequestId = PaymentRequests.createWithBill(data);
+    return paymentRequestId;
+  },
+
+  sendPaymentAuthorization: function(paymentRequestId) {
+    var paymentRequest = PaymentRequests.findOne(paymentRequestId);
+    paymentRequest.sendPaymentAuthorization();
+  },
+
   createBill: function(doc) {
     var bill = _.extend({}, doc, {
       status: Bill.Status.REVIEWED,
@@ -36,6 +46,13 @@ Meteor.methods({
   },
 
   createAuthorizeBillTransaction: function(data) {
+    var paymentId = data.paymentId;
+    var nonce = data.nonce;
+    var result = Payments.sale(paymentId, nonce);
+    if (result) {
+      
+    }
+
     console.log("[methods] createAuthorizedBillTransaction: ", data);
     var billAuthorizationId = data.billAuthorizationId;
     var nonce = data.nonce;
