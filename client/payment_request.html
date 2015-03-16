@@ -4,13 +4,17 @@
       <button class="return_list">Back</button>
     </div>
 
-    <div id="bill_content_panel" class="panel panel-default">
+    <div id="payment_request_content_panel" class="panel panel-default">
       <div class="panel-heading">{{bill.title}}</div>
       <div class="panel-body">
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-2">Email:</div>
             <div class="col-sm-10">{{bill.email}}</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2">Recipient:</div>
+            <div class="col-sm-10">{{bill.recipientFirstName}} {{bill.recipientLastName}}</div>
           </div>
           <div class="row">
             <div class="col-sm-2">Description:</div>
