@@ -16,6 +16,7 @@ Meteor.methods({
       throw 'Bill not found';
     }
     var billAuthorizationId = bill.sendAuthorization();
+    Email.sendBillAuth(bill);
 
     return {
       billAuthorizationId: billAuthorizationId
