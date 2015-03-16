@@ -1,4 +1,17 @@
 Template.paymentRequest.helpers({
+  actionTemplate: function() {
+    switch (this.state()) {
+      case PaymentRequest.States.REVIEWED:
+        return 'reviewedAction';
+      case PaymentRequest.States.AUTHORIZING:
+        return 'authorizingAction';
+      case PaymentRequest.States.AUTHORIZED:
+        return 'authorizedAction';
+      case PaymentRequest.States.PROCESSED:
+        return 'processedAction';
+    } 
+  },
+
   logs: function() {
     return _.map(this.events, function(event) {
       var template;
@@ -6,6 +19,10 @@ Template.paymentRequest.helpers({
         template = 'reviewedLog';
       } else if (event.type === PaymentRequest.Events.SENT_AUTH) {
         template = 'sentAuthLog';
+      } else if (event.type === PaymentRequest.Events.AUTHORIZED) {
+        template = 'authorizedLog';
+      } else if (event.type === PaymentRequest.Events.PROCESSED) {
+        template = 'processedLog';
       }
 
       return {
@@ -18,7 +35,6 @@ Template.paymentRequest.helpers({
 
 Template.sentAuthLog.helpers({
   authorizationURL: function() {
-    console.log("paymentID: ", this.paymentId);
     return Payments.findOne(this.paymentId).authorizationURL();
   } 
 });
@@ -31,5 +47,10 @@ Template.paymentRequest.events({
   'click #send_auth_button': function() {
     var paymentRequestId = this._id;
     var result = Meteor.call('sendPaymentAuthorization', paymentRequestId); 
-  }
+  },
+
+  'click #set_processed_button': function() {
+    var paymentRequestId = this._id;
+    var result = Meteor.call('setPaymentRequestProcessed', paymentRequestId);
+  } 
 });

@@ -33,6 +33,10 @@
             <div class="col-sm-10"><pre>{{bill.notes}}</pre></div>
           </div>
           <div class="row">
+            <div class="col-sm-2">States:</div>
+            <div class="col-sm-10">{{state}}</div>
+          </div>
+          <div class="row">
             <div class="col-sm-2">Logs:</div>
             <div class="col-sm-10">
               <ul>
@@ -46,9 +50,9 @@
           </div>
 
           <div class="row">
-            <div class="col-sm-2">Actions:</div>
+            <div class="col-sm-2">Action:</div>
             <div class="col-sm-10">
-              <button id="send_auth_button" class="btn btn-warning">Send Payment Authorization Email</button>
+              {{> Template.dynamic template=actionTemplate}}
             </div>
           </div>
         </div>
@@ -57,10 +61,37 @@
   </div>
 </template>
 
+<template name="reviewedAction">
+  <div>Click below button to send a payment authorization email to customer</div>
+  <button id="send_auth_button" class="btn btn-warning">Send Payment Authorization Email</button>
+</template>
+
+<template name="authorizingAction">
+  <div>An authorization email has already been sent to customer. If you want to resend a new one, click the below button</div>
+  <button id="send_auth_button" class="btn btn-warning">Re-Send Payment Authorization Email</button>
+</template>
+
+<template name="authorizedAction">
+  <div>Payment has already been authorized. Now, you can go ahead and pay the bill. Once you are done, set it as Processed</div>
+  <button id="set_processed_button" class="btn btn-success">Set Processed</button>
+</template>
+
+<template name="processedAction">
+  <div>The request has been fulfilled. Now, you can enjoy a cup of coffee</div>
+</template>
+
 <template name="reviewedLog">
   <span>Reviewed</span>
 </template>
 
 <template name="sentAuthLog">
-<span><a target="_blank" href="{{authorizationURL}}">Payment Authorization Sent ({{paymentId}})</a></span>
+  <span><a target="_blank" href="{{authorizationURL}}">Payment Authorization Sent ({{paymentId}})</a></span>
+</template>
+
+<template name="authorizedLog">
+  <span>Payment Authorized ({{paymentId}})</span>
+</template>
+
+<template name="processedLog">
+  <span>Processed</span>
 </template>

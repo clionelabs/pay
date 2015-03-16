@@ -9,6 +9,22 @@ Meteor.methods({
     paymentRequest.sendPaymentAuthorization();
   },
 
+  getPaymentAuthorizationToken: function() {
+    var clientToken = Payments.createAuthorizationToken(); 
+    return clientToken;
+  }, 
+
+  setPaymentRequestProcessed: function(paymentRequestId) {
+    var paymentRequest = PaymentRequests.findOne(paymentRequestId);
+    paymentRequest.setProcessed();
+  },
+
+  createPaymentTransaction: function(data) {
+    var payment = Payments.findOne(data.paymentId);
+    var success = payment.sale(data.nonce);
+    return success;
+  },
+
   createBill: function(doc) {
     var bill = _.extend({}, doc, {
       status: Bill.Status.REVIEWED,
