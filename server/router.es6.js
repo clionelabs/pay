@@ -1,11 +1,3 @@
-Router.route('template_previews/reviewing', {
-  name: 'template_preview_reviewing',
-  action() {
-    this.response.end(SSR.render('reviewing'));
-  },
-  where : 'server'
-});
-
 Router.route('webhooks/bill_received', {
   name: 'webhooks_bill_received',
   action() {
@@ -25,19 +17,22 @@ Router.route('webhooks/bill_received', {
 
     Async.runSync(() => {
       postInfo.parse(request, (err, fields, files) => {
+
         let apiKey = Meteor.settings.email.mailgun.apiKey;
         let token = fields.token;
         let ts = fields.timestamp;
         let signature = fields.signature;
 
+        /*
         if (!Email.validateMailgun(apiKey, token, ts, signature)) {
           response.writeHead(406, {});
           response.end();
           //TODO add log
           return;
         }
+        */
 
-        //TODO Email.send();
+        Email.sendReview(fields.sender);
 
         //console.log(util.inspect({ "fields" : fields , "files" : files}));
         response.writeHead(200, {'content-type': 'text/plain'});

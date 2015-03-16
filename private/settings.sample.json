@@ -1,7 +1,14 @@
 {
   "email" : {
+    "enableInNonProduction" : false,
+    "smtp" : {
+      "username": "<USER_NAME>",
+      "password": "<PASSWORD>",
+      "host": "<SMTP_HOST>",
+      "port": "<PORT>"
+    },
     "mailgun" : {
-      "apiKey" : "<API_KEY_FROM_MAILGUN>"
+      "apiKey" : "<API_KEY>"
     }
   }
 }
