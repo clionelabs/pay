@@ -1,39 +1,24 @@
 Template.paymentRequest.helpers({
   actionTemplate: function() {
-    switch (this.state()) {
-      case PaymentRequest.States.REVIEWED:
-        return 'reviewedAction';
-      case PaymentRequest.States.AUTHORIZING:
-        return 'authorizingAction';
-      case PaymentRequest.States.AUTHORIZED:
-        return 'authorizedAction';
-      case PaymentRequest.States.PROCESSED:
-        return 'processedAction';
-    } 
+    var state = this.state();
+    var stateName = state.charAt(0).toUpperCase() + state.slice(1); // capitalize
+    var templateName = 'paymentRequest' + stateName + 'Action';
+    return templateName;
   },
 
   logs: function() {
     return _.map(this.events, function(event) {
-      var template;
-      if (event.type === PaymentRequest.Events.REVIEWED) {
-        template = 'reviewedLog';
-      } else if (event.type === PaymentRequest.Events.SENT_AUTH) {
-        template = 'sentAuthLog';
-      } else if (event.type === PaymentRequest.Events.AUTHORIZED) {
-        template = 'authorizedLog';
-      } else if (event.type === PaymentRequest.Events.PROCESSED) {
-        template = 'processedLog';
-      }
-
+      var eventName = event.type.charAt(0).toUpperCase() + event.type.slice(1); // capitalize
+      var templateName = 'paymentRequest' + eventName + 'Log';
       return {
-        template: template,
-        event: event 
+        template: templateName,
+        event: event
       }
     });
   }
 });
 
-Template.sentAuthLog.helpers({
+Template.paymentRequestSentAuthLog.helpers({
   authorizationURL: function() {
     return Payments.findOne(this.paymentId).authorizationURL();
   } 

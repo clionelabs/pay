@@ -65,37 +65,37 @@
   </div>
 </template>
 
-<template name="reviewedAction">
+<template name="paymentRequestReviewedAction">
   <div>Click below button to send a payment authorization email to customer</div>
   <button id="send_auth_button" class="btn btn-warning">Send Payment Authorization Email</button>
 </template>
 
-<template name="authorizingAction">
+<template name="paymentRequestAuthorizingAction">
   <div>An authorization email has already been sent to customer. If you want to resend a new one, click the below button</div>
   <button id="send_auth_button" class="btn btn-warning">Re-Send Payment Authorization Email</button>
 </template>
 
-<template name="authorizedAction">
+<template name="paymentRequestAuthorizedAction">
   <div>Payment has already been authorized. Now, you can go ahead and pay the bill. Once you are done, set it as Processed</div>
   <button id="set_processed_button" class="btn btn-success">Set Processed</button>
 </template>
 
-<template name="processedAction">
+<template name="paymentRequestProcessedAction">
   <div>The request has been fulfilled. Now, you can enjoy a cup of coffee</div>
 </template>
 
-<template name="reviewedLog">
+<template name="paymentRequestReviewedLog">
   <span>Reviewed</span>
 </template>
 
-<template name="sentAuthLog">
+<template name="paymentRequestSentAuthLog">
   <span><a target="_blank" href="{{authorizationURL}}">Payment Authorization Sent ({{paymentId}})</a></span>
 </template>
 
-<template name="authorizedLog">
+<template name="paymentRequestAuthorizedLog">
   <span>Payment Authorized ({{paymentId}})</span>
 </template>
 
-<template name="processedLog">
+<template name="paymentRequestProcessedLog">
   <span>Processed</span>
 </template>
