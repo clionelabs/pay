@@ -1,14 +1,14 @@
 Template.paymentRequest.helpers({
   actionTemplate: function() {
     var state = this.state();
-    var stateName = state.charAt(0).toUpperCase() + state.slice(1); // capitalize
+    var stateName = s.capitalize(state); // capitalize
     var templateName = 'paymentRequest' + stateName + 'Action';
     return templateName;
   },
 
   logs: function() {
     return _.map(this.events, function(event) {
-      var eventName = event.type.charAt(0).toUpperCase() + event.type.slice(1); // capitalize
+      var eventName = s.capitalize(event.type); // capitalize
       var templateName = 'paymentRequest' + eventName + 'Log';
       return {
         template: templateName,

@@ -28,54 +28,35 @@ Email.validateMailgun = function(api_key, token, timestamp, signature) {
   return signature === hmac.update(timestamp + token).digest('hex');
 };
 
-Email.sendReview = function(to) {
-  let content = SSR.render('review');
+Email.sendTemplate = function(templateName, to, bill) {
+  let content = SSR.render(templateName);
 
   Email.send({
     "from": Email.from,
     "to": to,
-    "subject": Meteor.copies.subjects.review,
+    "subject": Meteor.copies.subjects[templateName],
     "html": content
   });
-};
-
-Email.sendPaid = function(bill) {
-  let content = SSR.render('paid', bill);
-
-  Email.send({
-    "from": Email.from,
-    "to": bill.from,
-    "subject": Meteor.copies.subjects.paid,
-    "html": content
-  });
-};
-
-Email.sendBillAuth = function(bill) {
-  let content = SSR.render('authorization', bill);
-
-  Email.send({
-    "from": Email.from,
-    "to": bill.from,
-    "subject": Meteor.copies.subjects.authorization,
-    "html": content
-  });
-};
-
-Email.sendRejected = function(bill) {
-  let content = SSR.render('rejected');
-
-  Email.send({
-    "from": Email.from,
-    "to": bill.from,
-    "subject": Meteor.copies.subjects.rejected,
-    "html": content
-  });
-};
+}
 
 Meteor.startup(() => {
+
+  //expected to be the same name as the Meteor.copies.subject in copy.es6.js
   SSR.compileTemplate("review", Assets.getText('email_templates/review.html'));
   SSR.compileTemplate("authorization", Assets.getText('email_templates/authorization.html'));
   SSR.compileTemplate("paid", Assets.getText('email_templates/paid.html'));
   SSR.compileTemplate("rejected", Assets.getText('email_templates/rejected.html'));
+
   Email.configureEmail();
+});
+
+PaymentRequests.find({ "events.type" : PaymentRequest.Events.SENT_AUTH}).observe({
+  "added" : function(payReq) {
+    Email.sendTemplate("authorization", payReq.bill.email, payReq.bill);
+  }
+});
+PaymentRequests.find({ "events.type" : PaymentRequest.Events.PROCESSED}).observe({
+  "added" : function(payReq) {
+    Email.sendTemplate("paid", payReq.bill.email, payReq.bill);
+  }
 });
