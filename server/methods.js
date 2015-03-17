@@ -25,26 +25,37 @@ Meteor.methods({
     return paymentRequestId;
   },
 
-  sendPaymentAuthorization: function(paymentRequestId) {
-    var paymentRequest = PaymentRequests.findOne(paymentRequestId);
-    paymentRequest.sendPaymentAuthorization();
-  },
-
-  getPaymentAuthorizationToken: function() {
-    var clientToken = Payments.createAuthorizationToken(); 
+  getAuthorizationToken: function() {
+    var clientToken = Customers.createAuthorizationToken(); 
     return clientToken;
-  }, 
-
-  createPaymentTransaction: function(data) {
-    var payment = Payments.findOne(data.paymentId);
-    var success = payment.sale(data.nonce);
-    return success;
   },
 
-  setPaymentRequestProcessed: function(paymentRequestId) {
-    var paymentRequest = PaymentRequests.findOne(paymentRequestId);
-    paymentRequest.setProcessed();
+  authorizePaymentRequestWithNonce: function(data) {
+    var paymentRequest = PaymentRequests.findOne(data.paymentRequestId);
+    var customer = paymentRequest.getCustomer();
+
+    var result = customer.createVault(data.nonce);
+    if (!result) return false;
+
+    var result2 = customer.charge(paymentRequest);
+    if (!result2) return false;
+
+    paymentRequest.authorize();
+
+    return true;
   },
+
+  authorizePaymentRequest: function(data) {
+    var paymentRequest = PaymentRequests.findOne(data.paymentRequestId);
+    var customer = paymentRequest.getCustomer();
+
+    var result = customer.charge(paymentRequest);
+    if (!result) return false;
+
+    paymentRequest.authorize();
+
+    return true;
+  }
 });
 
 Meteor.startup(function() {

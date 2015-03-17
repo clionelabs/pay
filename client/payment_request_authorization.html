@@ -1,0 +1,26 @@
+<template name="paymentRequestNewAuthorize">
+  <h1>Payment Request Authorization New - {{_id}}</h1>
+  <form id="payment_request_authorize">
+    <input type="hidden" name="paymentRequestId" value="{{_id}}"/>
+    <div class="row">
+      <div id="dropin" class="columns small-12"></div>
+    </div>
+    <div class="row">
+      <div class="columns small-12">
+        <button type="submit">Add Card & Authorize</button>
+      </div>
+    </div>
+  </form>
+</template>
+
+<template name="paymentRequestReturnAuthorize">
+  <h1>Payment Request Authorization Return - {{_id}}</h1>
+  <div class="row">
+    TODO - masked credit card here
+  </div>
+  <div class="row">
+    <div class="columns small-12">
+      <button class="authorize" type="submit">Confirm</button>
+    </div>
+  </div>
+</template>
