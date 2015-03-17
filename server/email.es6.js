@@ -21,6 +21,21 @@ Email.configureEmail = function() {
   }
 };
 
+Email.configureTemplates = function() {
+
+  let emailTemplates = ["review", "authorization", "paid", "rejected"];
+
+  _.each(emailTemplates, function(emailTemplate) {
+    SSR.compileTemplate(emailTemplate, Assets.getText('email_templates/' + emailTemplate + '.html'));
+    Email[s.capitalize(emailTemplate)] = {
+      send : function(to, bill) {
+        Email._sendTemplate(emailTemplate, to, bill);
+      }
+    };
+  });
+
+};
+
 Email.validateMailgun = function(api_key, token, timestamp, signature) {
   let crypto = Meteor.npmRequire('crypto');
   let hmac = crypto.createHmac('SHA256', api_key);
@@ -28,7 +43,7 @@ Email.validateMailgun = function(api_key, token, timestamp, signature) {
   return signature === hmac.update(timestamp + token).digest('hex');
 };
 
-Email.sendTemplate = function(templateName, to, bill) {
+Email._sendTemplate = function(templateName, to, bill) {
   let content = SSR.render(templateName);
 
   Email.send({
@@ -37,26 +52,23 @@ Email.sendTemplate = function(templateName, to, bill) {
     "subject": Meteor.copies.subjects[templateName],
     "html": content
   });
-}
+};
 
 Meteor.startup(() => {
 
-  //expected to be the same name as the Meteor.copies.subject in copy.es6.js
-  SSR.compileTemplate("review", Assets.getText('email_templates/review.html'));
-  SSR.compileTemplate("authorization", Assets.getText('email_templates/authorization.html'));
-  SSR.compileTemplate("paid", Assets.getText('email_templates/paid.html'));
-  SSR.compileTemplate("rejected", Assets.getText('email_templates/rejected.html'));
-
   Email.configureEmail();
+
+  Email.configureTemplates();
+
+  PaymentRequests.find({ "events.type" : PaymentRequest.Events.SENT_AUTH}).observe({
+    "added" : function(payReq) {
+      Email.Authorization.send(payReq.bill.email, payReq.bill);
+    }
+  });
+  PaymentRequests.find({ "events.type" : PaymentRequest.Events.PROCESSED}).observe({
+    "added" : function(payReq) {
+      Email.Paid.send(payReq.bill.email, payReq.bill);
+    }
+  });
 });
 
-PaymentRequests.find({ "events.type" : PaymentRequest.Events.SENT_AUTH}).observe({
-  "added" : function(payReq) {
-    Email.sendTemplate("authorization", payReq.bill.email, payReq.bill);
-  }
-});
-PaymentRequests.find({ "events.type" : PaymentRequest.Events.PROCESSED}).observe({
-  "added" : function(payReq) {
-    Email.sendTemplate("paid", payReq.bill.email, payReq.bill);
-  }
-});

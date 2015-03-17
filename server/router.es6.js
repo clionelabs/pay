@@ -32,7 +32,7 @@ Router.route('webhooks/bill_received', {
         }
         */
 
-        Email.sendTemplate("review", fields.sender);
+        Email.Review.send(fields.sender);
 
         //console.log(util.inspect({ "fields" : fields , "files" : files}));
         response.writeHead(200, {'content-type': 'text/plain'});
