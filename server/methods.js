@@ -1,4 +1,25 @@
 Meteor.methods({
+  // Temporary method to test state transitions/ events triggers
+  testPaymentRequestEvents: function(paymentRequestId, event) {
+    try {
+      var paymentRequest = PaymentRequests.findOne(paymentRequestId);
+      console.log("[methods] testPaymentRequestEvents: ", paymentRequestId, event);
+      if (event === 'initialize') {
+        paymentRequest.initialize();
+      } else if (event === 'reject') {
+        paymentRequest.reject();
+      } else if (event === 'accept') {
+        paymentRequest.accept();
+      } else if (event === 'authorize') {
+        paymentRequest.authorize();
+      } else if (event === 'complete') {
+        paymentRequest.complete();
+      }
+    } catch (err) {
+      console.log("[methods] testPaymentRequestEvents error: ", err.stack);
+    }
+  },
+
   createPaymentRequest: function(data) {
     var paymentRequestId = PaymentRequests.createWithBill(data);
     return paymentRequestId;

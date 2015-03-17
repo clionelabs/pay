@@ -59,7 +59,27 @@
               {{> Template.dynamic template=actionTemplate}}
             </div>
           </div>
+
+          {{> paymentRequestTestEvents}}
+
         </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="paymentRequestTestEvents">
+  <div class="row">
+    <div class="col-sm-2">Testing Events:</div>
+    <div class="col-sm-10">
+      <div>State: {{state}}</div>
+      <!-- Temporary buttons to test states transitions/ event triggers -->
+      <div>
+        <button class="send_initialize">Initialize</button>
+        <button class="send_accept">Accept</button>
+        <button class="send_reject">Reject</button>
+        <button class="send_authorize">Authorize</button>
+        <button class="send_complete">Complete</button>
       </div>
     </div>
   </div>
