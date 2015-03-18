@@ -5,7 +5,7 @@
 
 <template name="paymentRequestNewAuthorization">
   <h1>Payment Authorization</h1>
-  {{> paymentRequestAuthorizeCommon }}
+  {{> paymentRequestAuthorizationCommon }}
   <br><br>
   <form id="payment_request_authorize">
     <input type="hidden" name="paymentRequestId" value="{{_id}}"/>
@@ -17,14 +17,22 @@
 
 <template name="paymentRequestReturnAuthorization">
   <h1>Payment Authorization</h1>
-  {{> paymentRequestAuthorizeCommon }}
-  Last four digits of your card on file is <code>{{maskedCardLastFourDigits}}</code>.
-  <a href="">Change card?</a>
+  {{> paymentRequestAuthorizationCommon }}
+  {{> Template.dynamic template=paymentMethodTemplate data=paymentMethod}}
   <br><br>
   <button class="authorize btn btn-primary" type="submit">Confirm ${{totalAmount}}</button>
 </template>
 
-<template name="paymentRequestAuthorizeCommon">
+<template name="paymentMethodPaypal">
+  Your paypal email is <code>{{email}}</code>
+</template>
+
+<template name="paymentMethodCreditCard">
+  Last four digits of your card on file is <code>{{last4}}</code>.
+  <a href="">Change card?</a>
+</template>
+
+<template name="paymentRequestAuthorizationCommon">
   In order to pay on your behalf, please authorize us to
   charge ${{bill.amount}} for your {{bill.company}}'s bill on {{bill.title}} and ${{serviceFee}} for our <a href="">service fee</a>
   on or before {{bill.deadline}}.

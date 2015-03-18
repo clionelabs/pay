@@ -8,6 +8,26 @@ Template.paymentRequestReturnAuthorization.events({
   }
 });
 
+Template.paymentRequestReturnAuthorization.helpers({
+  paymentMethod: function() {
+    var authorizationInfo = Session.get('authorizationInfo');
+    var paymentMethod = authorizationInfo.paymentMethod;
+    return paymentMethod;
+  },
+
+  paymentMethodTemplate: function() {
+    var authorizationInfo = Session.get('authorizationInfo');
+    var paymentMethod = authorizationInfo.paymentMethod;
+
+    // There is no specific field indicating that the method is credit card/ paypal/ apple pay card
+    if (paymentMethod.cardType && paymentMethod.last4) {
+      return 'paymentMethodCreditCard';
+    } else {
+      return 'paymentMethodPaypal';
+    }
+  } 
+});
+
 Template.paymentRequestNewAuthorization.rendered = function() {
   Meteor.call('getAuthorizationToken', function(err, clientToken) {
     if (err) {
