@@ -22,6 +22,14 @@ Template.paymentRequestNewAuthorize.rendered = function() {
   });
 };
 
+Template.paymentRequestReturnAuthorize.helpers({
+  maskedCardLastFourDigits: function() {
+    // var customer = Customers.findOne(this.customerId);
+    // return customer.maskedCardLastFourDigits;
+    return "1234";
+  }
+});
+
 var initializeBraintree = function(clientToken) {
   console.log("[initializeBraintree]: ", braintree);
   braintree.setup(clientToken, 'dropin', {
@@ -44,5 +52,3 @@ var initializeBraintree = function(clientToken) {
     }
   });
 };
-
-

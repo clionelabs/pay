@@ -1,26 +1,28 @@
 <template name="paymentRequestNewAuthorize">
-  <h1>Payment Request Authorization New - {{_id}}</h1>
+  <h1>Payment Authorization</h1>
+  {{> paymentRequestAuthorizeCommon }}
+  <br><br>
   <form id="payment_request_authorize">
     <input type="hidden" name="paymentRequestId" value="{{_id}}"/>
-    <div class="row">
-      <div id="dropin" class="columns small-12"></div>
-    </div>
-    <div class="row">
-      <div class="columns small-12">
-        <button type="submit">Add Card & Authorize</button>
-      </div>
-    </div>
+    <div id="dropin"></div>
+    <br>
+    <button class="btn btn-primary" type="submit">Add Card & Authorize ${{totalAmount}}</button>
   </form>
 </template>
 
 <template name="paymentRequestReturnAuthorize">
-  <h1>Payment Request Authorization Return - {{_id}}</h1>
-  <div class="row">
-    TODO - masked credit card here
-  </div>
-  <div class="row">
-    <div class="columns small-12">
-      <button class="authorize" type="submit">Confirm</button>
-    </div>
-  </div>
+  <h1>Payment Authorization</h1>
+  {{> paymentRequestAuthorizeCommon }}
+  Last four digits of your card on file is <code>{{maskedCardLastFourDigits}}</code>.
+  <a href="">Change card?</a>
+  <br><br>
+  <button class="btn btn-primary" type="submit">Confirm ${{totalAmount}}</button>
+</template>
+
+<template name="paymentRequestAuthorizeCommon">
+  In order to pay on your behalf, please authorize us to
+  charge ${{bill.amount}} for your {{bill.company}}'s bill on {{bill.title}} and ${{serviceFee}} for our <a href="">service fee</a>
+  on or before {{bill.deadline}}.
+  <br><br>
+  Credit card payment is securely processed using <a href="https://paypal.com">PayPal</a>.
 </template>
