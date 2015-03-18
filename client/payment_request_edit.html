@@ -1,0 +1,4 @@
+<template name="editPaymentRequest">
+  {{> paymentRequestRaw }}
+  {{> quickForm collection="PaymentRequests" schema=Schemas.CreatePaymentRequestForm doc=this id="paymentRequestEditForm" type="update"}}
+</template>

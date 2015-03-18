@@ -3,9 +3,6 @@ Template.paymentRequest.helpers({
     var stateName = s.capitalize(state); // capitalize
     var templateName = 'paymentRequest' + stateName + 'Action';
     return templateName;
-  },
-  getRawString : function() {
-    return JSON.stringify(this.raw, null, 2);
   }
 });
 
@@ -21,6 +18,9 @@ Template.paymentRequestAuthorizingAction.helpers({
 Template.paymentRequest.events({
   'click button.return_list': function() {
     Router.go("paymentRequests");
+  },
+  'click button.edit' : function() {
+    Router.go('editPaymentRequest', this);
   },
   'click button.send_accept': function() {
     Meteor.call('testPaymentRequestEvents', this._id, 'accept');
