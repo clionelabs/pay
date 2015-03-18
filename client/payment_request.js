@@ -1,5 +1,6 @@
 Template.paymentRequest.helpers({
   actionTemplate: function() {
+    var state = this.state;
     var stateName = s.capitalize(state); // capitalize
     var templateName = 'paymentRequest' + stateName + 'Action';
     return templateName;
