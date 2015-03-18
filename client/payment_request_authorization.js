@@ -1,18 +1,14 @@
-Template.paymentRequestReturnAuthorize.events({
+Template.paymentRequestReturnAuthorization.events({
   'click button.authorize': function() {
     var data = {paymentRequestId: this._id};
     Meteor.call('authorizePaymentRequest', data, function(err, result) {
       console.log("authorizePaymentRequest result: ", result);
-      if (result) {
-        //TODO redirect to auth success page
-      } else {
-        //TODO redirect to auth failed page
-      }
+      redirectAuthorizationFinished(result, data.paymentRequestId);
     })
   }
 });
 
-Template.paymentRequestNewAuthorize.rendered = function() {
+Template.paymentRequestNewAuthorization.rendered = function() {
   Meteor.call('getAuthorizationToken', function(err, clientToken) {
     if (err) {
       console.log("error retrieving braintree client token", err);
@@ -22,7 +18,7 @@ Template.paymentRequestNewAuthorize.rendered = function() {
   });
 };
 
-Template.paymentRequestReturnAuthorize.helpers({
+Template.paymentRequestReturnAuthorization.helpers({
   maskedCardLastFourDigits: function() {
     // var customer = Customers.findOne(this.customerId);
     // return customer.maskedCardLastFourDigits;
@@ -31,7 +27,6 @@ Template.paymentRequestReturnAuthorize.helpers({
 });
 
 var initializeBraintree = function(clientToken) {
-  console.log("[initializeBraintree]: ", braintree);
   braintree.setup(clientToken, 'dropin', {
     container: 'dropin',
     paymentMethodNonceReceived: function(event, nonce) {
@@ -43,12 +38,16 @@ var initializeBraintree = function(clientToken) {
       }
       Meteor.call('authorizePaymentRequestWithNonce', data, function(err, result) {
         console.log("authorizePaymentRequestWithNonce result: ", result);
-        if (result) {
-          //TODO redirect to auth success page
-        } else {
-          //TODO redirect to auth failed page
-        }
+        redirectAuthorizationFinished(result, data.paymentRequestId);
       });
     }
   });
 };
+
+var redirectAuthorizationFinished = function(success, paymentRequestId) {
+  if (success) {
+    Router.go("paymentRequestAuthorizationSuccess", {_id: paymentRequestId}); 
+  } else {
+    Router.go("paymentRequestAuthorizationFail", {_id: paymentRequestId}); 
+  }
+}

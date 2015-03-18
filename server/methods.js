@@ -20,6 +20,26 @@ Meteor.methods({
     }
   },
 
+  getPaymentRequestAuthorizationInfo: function(paymentRequestId) {
+    var paymentRequest = PaymentRequests.findOne(paymentRequestId);
+    var customer = paymentRequest.getCustomer();
+    var isReturning = customer.isPaymentMethodAvailable();
+
+    var data;
+    if (isReturning) {
+      var paymentMethod = customer.getPaymentMethod();
+      data = {
+        isReturning: true,
+        paymentMethod: paymentMethod
+      } 
+    } else {
+      data = {
+        isReturning: false
+      }
+    }
+    return data;
+  },
+
   createPaymentRequest: function(data) {
     var paymentRequestId = PaymentRequests.createWithBill(data);
     return paymentRequestId;
