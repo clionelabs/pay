@@ -3,6 +3,9 @@ Template.paymentRequest.helpers({
     var stateName = s.capitalize(state); // capitalize
     var templateName = 'paymentRequest' + stateName + 'Action';
     return templateName;
+  },
+  getRawString : function() {
+    return JSON.stringify(this.raw, null, 2);
   }
 });
 

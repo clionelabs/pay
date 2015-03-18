@@ -55,20 +55,7 @@ Email._sendTemplate = function(templateName, to, bill) {
 };
 
 Meteor.startup(() => {
-
   Email.configureEmail();
-
   Email.configureTemplates();
-
-  PaymentRequests.find({ "events.type" : PaymentRequest.Events.SENT_AUTH}).observe({
-    "added" : function(payReq) {
-      Email.Authorization.send(payReq.bill.email, payReq.bill);
-    }
-  });
-  PaymentRequests.find({ "events.type" : PaymentRequest.Events.PROCESSED}).observe({
-    "added" : function(payReq) {
-      Email.Paid.send(payReq.bill.email, payReq.bill);
-    }
-  });
 });
 

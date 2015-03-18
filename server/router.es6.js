@@ -15,8 +15,8 @@ Router.route('webhooks/bill_received', {
       return;
     }
 
-    Async.runSync(() => {
-      postInfo.parse(request, (err, fields, files) => {
+    let wrappedPostInfo = Async.wrap(postInfo, ['parse']);
+      wrappedPostInfo.parse(request, Meteor.bindEnvironment((err, fields, files) => {
 
         let apiKey = Meteor.settings.email.mailgun.apiKey;
         let token = fields.token;
@@ -31,14 +31,11 @@ Router.route('webhooks/bill_received', {
           return;
         }
         */
-
-        Email.Review.send(fields.sender);
-
+        PaymentRequests.createWithRaw(fields);
         //console.log(util.inspect({ "fields" : fields , "files" : files}));
         response.writeHead(200, {'content-type': 'text/plain'});
         response.end('');
-      });
-    });
+      }));
 
   },
   where : 'server'
