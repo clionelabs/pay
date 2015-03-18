@@ -12,6 +12,7 @@
         <table class="table">
           <thead>
             <tr>
+              <th>Email</th>
               <th>Title</th>
               <th>Amount</th>
               <th>State</th>
@@ -30,6 +31,7 @@
 
 <template name="paymentRequestRow">
   <tr class="payment_request_row">
+    <td>{{bill.email}}</td>
     <td>{{bill.title}}</td>
     <td>{{bill.currency}} {{bill.amount}}</td>
     <td>{{state}}</td>

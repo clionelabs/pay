@@ -2,12 +2,14 @@
   <div id="payment_request_container">
     <div class="page-header">
       <button class="return_list">Back</button>
+        <button class="edit btn btn-primary">Edit</button>
     </div>
 
     <div id="payment_request_content_panel" class="panel panel-default">
       <div class="panel-heading">{{bill.title}}</div>
       <div class="panel-body">
         <div class="container-fluid">
+          {{> paymentRequestRaw }}
           <div class="row">
             <div class="col-sm-2">Email:</div>
             <div class="col-sm-10">{{bill.email}}</div>

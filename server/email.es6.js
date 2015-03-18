@@ -21,6 +21,21 @@ Email.configureEmail = function() {
   }
 };
 
+Email.configureTemplates = function() {
+
+  let emailTemplates = ["review", "authorization", "paid", "rejected"];
+
+  _.each(emailTemplates, function(emailTemplate) {
+    SSR.compileTemplate(emailTemplate, Assets.getText('email_templates/' + emailTemplate + '.html'));
+    Email[s.capitalize(emailTemplate)] = {
+      send : function(to, bill) {
+        Email._sendTemplate(emailTemplate, to, bill);
+      }
+    };
+  });
+
+};
+
 Email.validateMailgun = function(api_key, token, timestamp, signature) {
   let crypto = Meteor.npmRequire('crypto');
   let hmac = crypto.createHmac('SHA256', api_key);
@@ -28,54 +43,19 @@ Email.validateMailgun = function(api_key, token, timestamp, signature) {
   return signature === hmac.update(timestamp + token).digest('hex');
 };
 
-Email.sendReview = function(to) {
-  let content = SSR.render('review');
+Email._sendTemplate = function(templateName, to, bill) {
+  let content = SSR.render(templateName);
 
   Email.send({
     "from": Email.from,
     "to": to,
-    "subject": Meteor.copies.subjects.review,
-    "html": content
-  });
-};
-
-Email.sendPaid = function(bill) {
-  let content = SSR.render('paid', bill);
-
-  Email.send({
-    "from": Email.from,
-    "to": bill.from,
-    "subject": Meteor.copies.subjects.paid,
-    "html": content
-  });
-};
-
-Email.sendBillAuth = function(bill) {
-  let content = SSR.render('authorization', bill);
-
-  Email.send({
-    "from": Email.from,
-    "to": bill.from,
-    "subject": Meteor.copies.subjects.authorization,
-    "html": content
-  });
-};
-
-Email.sendRejected = function(bill) {
-  let content = SSR.render('rejected');
-
-  Email.send({
-    "from": Email.from,
-    "to": bill.from,
-    "subject": Meteor.copies.subjects.rejected,
+    "subject": Meteor.copies.subjects[templateName],
     "html": content
   });
 };
 
 Meteor.startup(() => {
-  SSR.compileTemplate("review", Assets.getText('email_templates/review.html'));
-  SSR.compileTemplate("authorization", Assets.getText('email_templates/authorization.html'));
-  SSR.compileTemplate("paid", Assets.getText('email_templates/paid.html'));
-  SSR.compileTemplate("rejected", Assets.getText('email_templates/rejected.html'));
   Email.configureEmail();
+  Email.configureTemplates();
 });
+
