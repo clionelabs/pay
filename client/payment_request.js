@@ -4,6 +4,10 @@ Template.paymentRequest.helpers({
     var stateName = s.capitalize(state); // capitalize
     var templateName = 'paymentRequest' + stateName + 'Action';
     return templateName;
+  },
+
+  logTime: function(timestamp) {
+    return moment(timestamp).format();
   }
 });
 

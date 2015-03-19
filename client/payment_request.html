@@ -36,16 +36,27 @@
           </div>
           <div class="row">
             <div class="col-sm-2">Notes:</div>
-            <div class="col-sm-10"><pre>{{bill.notes}}</pre></div>
+            <div class="col-sm-10 pre">{{bill.notes}}</div>
           </div>
           <div class="row">
-            <div class="col-sm-2">States:</div>
-            <div class="col-sm-10">{{state}}</div>
+            <div class="col-sm-2">Current State:</div>
+            <div class="col-sm-10">[{{state}}]</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2">Logs:</div>
+            <div class="col-sm-10">
+              {{#each logs}}
+                {{logTime timestamp}}: changed to [{{state}}]
+                <br/>
+              {{/each}}
+            </div>
           </div>
           <div class="row">
             <div class="col-sm-2">Action:</div>
             <div class="col-sm-10">
-              {{> Template.dynamic template=actionTemplate}}
+              <div class="well">
+                {{> Template.dynamic template=actionTemplate}}
+              </div>
             </div>
           </div>
 
