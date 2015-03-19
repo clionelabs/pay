@@ -13,8 +13,8 @@ Template.paymentMethodPaypal.helpers({
     var index = email.lastIndexOf('@');
     var id = email.slice(0, index);
     var domain = email.slice(index + 1, email.length);
-    var domainFirstPart = domain.slice(0, domain.indexOf('.'));
-    var domainLastPart = domain.slice(domain.indexOf('.') + 1, domain.length);
+    var domainFirstPart = domain.slice(0, domain.lastIndexOf('.'));
+    var domainLastPart = domain.slice(domain.lastIndexOf('.') + 1, domain.length);
     var maskedDomainFirstPart = domainFirstPart[0] + domainFirstPart.replace(/./g, '*').slice(1, domainFirstPart.length);
     var maskedId = id[0] + id.replace(/./g, '*').slice(1, id.length);
     var masked = maskedId + "@" + maskedDomainFirstPart + "." + domainLastPart; 
