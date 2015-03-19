@@ -28,8 +28,8 @@ Email.configureTemplates = function() {
   _.each(emailTemplates, function(emailTemplate) {
     SSR.compileTemplate(emailTemplate, Assets.getText('email_templates/' + emailTemplate + '.html'));
     Email[s.capitalize(emailTemplate)] = {
-      send : function(to, bill) {
-        Email._sendTemplate(emailTemplate, to, bill);
+      send : function(to, dataContext) {
+        Email._sendTemplate(emailTemplate, to, dataContext);
       }
     };
   });
@@ -43,8 +43,8 @@ Email.validateMailgun = function(api_key, token, timestamp, signature) {
   return signature === hmac.update(timestamp + token).digest('hex');
 };
 
-Email._sendTemplate = function(templateName, to, bill) {
-  let content = SSR.render(templateName, bill);
+Email._sendTemplate = function(templateName, to, dataContext) {
+  let content = SSR.render(templateName, dataContext);
 
   Email.send({
     "from": Email.from,
