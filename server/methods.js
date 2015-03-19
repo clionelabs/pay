@@ -23,7 +23,7 @@ Meteor.methods({
   getPaymentRequestAuthorizationInfo: function(paymentRequestId) {
     var paymentRequest = PaymentRequests.findOne(paymentRequestId);
     var customer = paymentRequest.getCustomer();
-    var isReturning = customer.isPaymentMethodAvailable();
+    var isReturning = customer.isPaymentMethodAvailable(); //if the user is returning, there must be a payment method available
 
     var data;
     if (isReturning) {
@@ -33,8 +33,10 @@ Meteor.methods({
         paymentMethod: paymentMethod
       } 
     } else {
+      var clientToken = Customers.createAuthorizationToken();
       data = {
-        isReturning: false
+        isReturning: false,
+        clientToken: clientToken
       }
     }
     return data;
@@ -43,11 +45,6 @@ Meteor.methods({
   createPaymentRequest: function(data) {
     var paymentRequestId = PaymentRequests.createWithBill(data);
     return paymentRequestId;
-  },
-
-  getAuthorizationToken: function() {
-    var clientToken = Customers.createAuthorizationToken(); 
-    return clientToken;
   },
 
   authorizePaymentRequestWithNonce: function(data) {
