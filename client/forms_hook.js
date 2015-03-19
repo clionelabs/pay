@@ -1,5 +1,5 @@
 AutoForm.hooks({
-  paymentRequestForm: {
+  billForm: {
     before : {
       insert : function(doc) {
         var initDoc = {
