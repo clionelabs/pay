@@ -44,7 +44,7 @@ Email.validateMailgun = function(api_key, token, timestamp, signature) {
 };
 
 Email._sendTemplate = function(templateName, to, bill) {
-  let content = SSR.render(templateName);
+  let content = SSR.render(templateName, bill);
 
   Email.send({
     "from": Email.from,
