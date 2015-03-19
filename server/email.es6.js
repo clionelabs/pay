@@ -23,7 +23,7 @@ Email.configureEmail = function() {
 
 Email.configureTemplates = function() {
 
-  let emailTemplates = ["review", "authorization", "paid", "rejected"];
+  let emailTemplates = ["review", "authorization", "paid", "rejection"];
 
   _.each(emailTemplates, function(emailTemplate) {
     SSR.compileTemplate(emailTemplate, Assets.getText('email_templates/' + emailTemplate + '.html'));
