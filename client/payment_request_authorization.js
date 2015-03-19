@@ -8,6 +8,20 @@ Template.paymentRequestReturnAuthorization.events({
   }
 });
 
+Template.paymentMethodPaypal.helpers({
+  maskedEmail: function(email) {
+    var index = email.lastIndexOf('@');
+    var id = email.slice(0, index);
+    var domain = email.slice(index + 1, email.length);
+    var domainFirstPart = domain.slice(0, domain.indexOf('.'));
+    var domainLastPart = domain.slice(domain.indexOf('.') + 1, domain.length);
+    var maskedDomainFirstPart = domainFirstPart[0] + domainFirstPart.replace(/./g, '*').slice(1, domainFirstPart.length);
+    var maskedId = id[0] + id.replace(/./g, '*').slice(1, id.length);
+    var masked = maskedId + "@" + maskedDomainFirstPart + "." + domainLastPart; 
+    return masked;
+  }
+});
+
 Template.paymentRequestReturnAuthorization.helpers({
   paymentMethod: function() {
     var authorizationInfo = Session.get('authorizationInfo');
