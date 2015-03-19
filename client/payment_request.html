@@ -86,7 +86,7 @@
 <template name="paymentRequestAuthorizingAction">
   <div>An authorization email has already been sent to customer. The authorization URL below is what they are seeing:</div>
   <div><button class="send_again btn btn-primary">Send Again</button></div>
-  Customer Authorization Page: <a target="_blank" href="{{authorizationURL}}">View</a>
+  Customer Authorization Page: <a target="_blank" href="{{urlFor route="paymentRequestAuthorization"}}">View</a>
 </template>
 
 <template name="paymentRequestProcessingAction">
