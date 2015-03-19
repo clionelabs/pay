@@ -20,14 +20,31 @@ Meteor.methods({
     }
   },
 
+  getPaymentRequestAuthorizationInfo: function(paymentRequestId) {
+    var paymentRequest = PaymentRequests.findOne(paymentRequestId);
+    var customer = paymentRequest.getCustomer();
+    var isReturning = customer.isPaymentMethodAvailable(); //if the user is returning, there must be a payment method available
+
+    var data;
+    if (isReturning) {
+      var paymentMethod = customer.getPaymentMethod();
+      data = {
+        isReturning: true,
+        paymentMethod: paymentMethod
+      } 
+    } else {
+      var clientToken = Customers.createAuthorizationToken();
+      data = {
+        isReturning: false,
+        clientToken: clientToken
+      }
+    }
+    return data;
+  },
+
   createPaymentRequest: function(data) {
     var paymentRequestId = PaymentRequests.createWithBill(data);
     return paymentRequestId;
-  },
-
-  getAuthorizationToken: function() {
-    var clientToken = Customers.createAuthorizationToken(); 
-    return clientToken;
   },
 
   authorizePaymentRequestWithNonce: function(data) {

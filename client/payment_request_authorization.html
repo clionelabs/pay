@@ -1,6 +1,11 @@
-<template name="paymentRequestNewAuthorize">
+<template name="paymentRequestAlreadyAuthorized">
+  <h1>Payment Authorization - You have already authorized - Dont authorize again.</h1>
+  <h2>TODO</h2>
+</template>
+
+<template name="paymentRequestNewAuthorization">
   <h1>Payment Authorization</h1>
-  {{> paymentRequestAuthorizeCommon }}
+  {{> paymentRequestAuthorizationCommon }}
   <br><br>
   <form id="payment_request_authorize">
     <input type="hidden" name="paymentRequestId" value="{{_id}}"/>
@@ -10,19 +15,36 @@
   </form>
 </template>
 
-<template name="paymentRequestReturnAuthorize">
+<template name="paymentRequestReturnAuthorization">
   <h1>Payment Authorization</h1>
-  {{> paymentRequestAuthorizeCommon }}
-  Last four digits of your card on file is <code>{{maskedCardLastFourDigits}}</code>.
-  <a href="">Change card?</a>
+  {{> paymentRequestAuthorizationCommon }}
+  {{> Template.dynamic template=paymentMethodTemplate data=paymentMethod}}
   <br><br>
-  <button class="btn btn-primary" type="submit">Confirm ${{totalAmount}}</button>
+  <button class="authorize btn btn-primary" type="submit">Confirm ${{totalAmount}}</button>
 </template>
 
-<template name="paymentRequestAuthorizeCommon">
+<template name="paymentMethodPaypal">
+  Your paypal email is <code>{{email}}</code>
+</template>
+
+<template name="paymentMethodCreditCard">
+  Last four digits of your card on file is <code>{{last4}}</code>.
+  <a href="">Change card?</a>
+</template>
+
+<template name="paymentRequestAuthorizationCommon">
   In order to pay on your behalf, please authorize us to
   charge ${{bill.amount}} for your {{bill.company}}'s bill on {{bill.title}} and ${{serviceFee}} for our <a href="">service fee</a>
   on or before {{bill.deadline}}.
   <br><br>
   Credit card payment is securely processed using <a href="https://paypal.com">PayPal</a>.
+</template>
+
+<template name="paymentRequestAuthorizationSuccess">
+  <h1>Payment Authorization Successful</h1>
+  <h2>TODO</h2>
+</template>
+<template name="paymentRequestAuthorizationFail">
+  <h1>Payment Authorization Failed</h1>
+  <h2>TODO</h2>
 </template>
