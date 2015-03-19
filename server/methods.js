@@ -47,11 +47,6 @@ Meteor.methods({
     return data;
   },
 
-  getAuthorizationToken: function() {
-    var clientToken = Customers.createAuthorizationToken(); 
-    return clientToken;
-  },
-
   authorizePaymentRequestWithNonce: function(data) {
     var paymentRequest = PaymentRequests.findOne(data.paymentRequestId);
     var customer = paymentRequest.getCustomer();
