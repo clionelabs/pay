@@ -29,22 +29,10 @@ Template.paymentRequestReturnAuthorization.helpers({
 });
 
 Template.paymentRequestNewAuthorization.rendered = function() {
-  Meteor.call('getAuthorizationToken', function(err, clientToken) {
-    if (err) {
-      console.log("error retrieving braintree client token", err);
-      return;
-    }
-    initializeBraintree(clientToken);
-  });
+  var authorizationInfo = Session.get('authorizationInfo');
+  var clientToken = authorizationInfo.clientToken;
+  initializeBraintree(clientToken);
 };
-
-Template.paymentRequestReturnAuthorization.helpers({
-  maskedCardLastFourDigits: function() {
-    // var customer = Customers.findOne(this.customerId);
-    // return customer.maskedCardLastFourDigits;
-    return "1234";
-  }
-});
 
 var initializeBraintree = function(clientToken) {
   braintree.setup(clientToken, 'dropin', {
