@@ -20,11 +20,6 @@ Meteor.methods({
     }
   },
 
-  createPaymentRequest: function(data) {
-    var paymentRequestId = PaymentRequests.createWithBill(data);
-    return paymentRequestId;
-  },
-
   getAuthorizationToken: function() {
     var clientToken = Customers.createAuthorizationToken(); 
     return clientToken;
