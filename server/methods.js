@@ -19,6 +19,12 @@ Meteor.methods({
       console.log("[methods] testPaymentRequestEvents error: ", err.stack);
     }
   },
+
+  sendAuthEmail : function(paymentRequestId) {
+    var paymentRequest = PaymentRequests.findOne(paymentRequestId);
+    Email.Authorization.send(paymentRequest.bill.email, paymentRequest);
+  },
+
   getPaymentRequestAuthorizationInfo: function(paymentRequestId) {
     var paymentRequest = PaymentRequests.findOne(paymentRequestId);
     var customer = paymentRequest.getCustomer();
@@ -37,11 +43,6 @@ Meteor.methods({
       }
     }
     return data;
-  },
-
-  createPaymentRequest: function(data) {
-    var paymentRequestId = PaymentRequests.createWithBill(data);
-    return paymentRequestId;
   },
 
   getAuthorizationToken: function() {
