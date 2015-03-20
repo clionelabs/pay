@@ -20,6 +20,21 @@ Meteor.methods({
     }
   },
 
+  acceptPaymentRequest: function(paymentRequestId) {
+    var paymentRequest = PaymentRequests.findOne(paymentRequestId);
+    paymentRequest.accept();
+  },
+
+  rejectPaymentRequest: function(paymentRequestId) {
+    var paymentRequest = PaymentRequests.findOne(paymentRequestId);
+    paymentRequest.reject();
+  },
+
+  completePaymentRequest: function(paymentRequestId) {
+    var paymentRequest = PaymentRequests.findOne(paymentRequestId);
+    paymentRequest.complete();
+  },
+
   getPaymentRequestAuthorizationInfo: function(paymentRequestId) {
     var paymentRequest = PaymentRequests.findOne(paymentRequestId);
     var customer = paymentRequest.getCustomer();
