@@ -1,11 +1,82 @@
+Template.paymentRequestAuthorization.helpers({
+  contentTemplate: function() {
+    var authorizationInfo = this;
+    if (authorizationInfo.isAuthorized) {
+      return 'paymentRequestAuthorized';
+    } else if (authorizationInfo.isReturning) {
+      return 'paymentRequestReturnAuthorization';
+    } else {
+      return 'paymentRequestNewAuthorization';
+    }
+  },
+});
+
+Template.paymentRequestNewAuthorization.helpers({
+  paymentRequest: function() {
+    return new PaymentRequest(this.paymentRequestDoc);
+  }
+});
+
+Template.paymentRequestNewAuthorization.rendered = function() {
+  var clientToken = this.data.clientToken;
+  var paymentRequestId = this.data.paymentRequestDoc._id;
+  var requestSent = false;
+  braintree.setup(clientToken, 'dropin', {
+    container: 'dropin',
+    paymentMethodNonceReceived: function(event, nonce) {
+      var data = {
+        paymentRequestId: paymentRequestId,
+        nonce: nonce
+      }
+
+      // The submit button might have been clicked multiple times by customers
+      // But there is no easy way to disable the submit button using braintree drop-in UI
+      // So we simply allow sending request to our server once 
+      if (requestSent) return; // There is no way to  
+      resquestSent = true;
+      Meteor.call('authorizePaymentRequestWithNonce', data, function(err, result) {
+        handleAuthorizationCallback(result, data.paymentRequestId);
+      });
+    }
+  });
+};
+
+Template.paymentRequestReturnAuthorization.helpers({
+  paymentRequest: function() {
+    return new PaymentRequest(this.paymentRequestDoc);
+  },
+
+  paymentMethodTemplate: function() {
+    // There is no specific field indicating that the method is credit card/ paypal/ apple pay card
+    if (this.paymentMethod.cardType && this.paymentMethod.last4) {
+      return 'paymentMethodCreditCard';
+    } else {
+      return 'paymentMethodPaypal';
+    }
+  } 
+});
+
 Template.paymentRequestReturnAuthorization.events({
   'click button.authorize': function() {
-    var data = {paymentRequestId: this._id};
+    $("button.authorize").attr("disabled", true);
+    var data = {paymentRequestId: this.paymentRequestDoc._id, passcode: $("#passcode").val()};
     Meteor.call('authorizePaymentRequest', data, function(err, result) {
-      console.log("authorizePaymentRequest result: ", result);
-      redirectAuthorizationFinished(result, data.paymentRequestId);
-    })
-  }
+      $("button.authorize").removeAttr("disabled");
+      handleAuthorizationCallback(result, data.paymentRequestId);
+    });
+  },
+
+  'keyup #passcode': function() {
+    Meteor.call('verifyAuthorizationPasscode', this.paymentRequestDoc._id, $("#passcode").val(), function(error, result){
+      if (result) {
+        $("button.authorize").removeAttr("disabled");
+        $("#passcode_result").show();
+      } else {
+        $("button.authorize").attr("disabled", true);
+        $("#passcode_result").hide();
+      }
+    }); 
+  } 
 });
 
 Template.paymentMethodPaypal.helpers({
@@ -22,54 +93,13 @@ Template.paymentMethodPaypal.helpers({
   }
 });
 
-Template.paymentRequestReturnAuthorization.helpers({
-  paymentMethod: function() {
-    var authorizationInfo = Session.get('authorizationInfo');
-    var paymentMethod = authorizationInfo.paymentMethod;
-    return paymentMethod;
-  },
-
-  paymentMethodTemplate: function() {
-    var authorizationInfo = Session.get('authorizationInfo');
-    var paymentMethod = authorizationInfo.paymentMethod;
-
-    // There is no specific field indicating that the method is credit card/ paypal/ apple pay card
-    if (paymentMethod.cardType && paymentMethod.last4) {
-      return 'paymentMethodCreditCard';
-    } else {
-      return 'paymentMethodPaypal';
-    }
-  } 
-});
-
-Template.paymentRequestNewAuthorization.rendered = function() {
-  var authorizationInfo = Session.get('authorizationInfo');
-  var clientToken = authorizationInfo.clientToken;
-  initializeBraintree(clientToken);
-};
-
-var initializeBraintree = function(clientToken) {
-  braintree.setup(clientToken, 'dropin', {
-    container: 'dropin',
-    paymentMethodNonceReceived: function(event, nonce) {
-      var paymentRequestId = $("input[name=paymentRequestId]").val();
-
-      var data = {
-        paymentRequestId: paymentRequestId,
-        nonce: nonce
-      }
-      Meteor.call('authorizePaymentRequestWithNonce', data, function(err, result) {
-        console.log("authorizePaymentRequestWithNonce result: ", result);
-        redirectAuthorizationFinished(result, data.paymentRequestId);
-      });
-    }
-  });
-};
-
-var redirectAuthorizationFinished = function(success, paymentRequestId) {
+var handleAuthorizationCallback = function(success, paymentRequestId) {
   if (success) {
-    Router.go("paymentRequestAuthorizationSuccess", {_id: paymentRequestId}); 
+    Notifications.success('Successful', 'We have successfully received your authorization');
+    var authorizationInfo = Session.get('authorizationInfo');
+    authorizationInfo.isAuthorized = true;
+    Session.set('authorizationInfo', authorizationInfo);
   } else {
-    Router.go("paymentRequestAuthorizationFail", {_id: paymentRequestId}); 
+    Notifications.error('Authorization failed', 'There is some error processing your authorization.');
   }
 }
