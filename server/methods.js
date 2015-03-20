@@ -87,8 +87,6 @@ Meteor.methods({
   },
 
   authorizePaymentRequestWithNonce: function(data) {
-    return true;
-
     var paymentRequest = PaymentRequests.findOne(data.paymentRequestId);
     var customer = paymentRequest.getCustomer();
 
