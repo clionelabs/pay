@@ -32,13 +32,13 @@ Template.paymentRequest.events({
     Meteor.call('sendAuthEmail', this._id);
   },
   'click button.send_accept': function() {
-    Meteor.call('testPaymentRequestEvents', this._id, 'accept');
+    Meteor.call('acceptPaymentRequest', this._id);
   },
   'click button.send_reject': function() {
-    Meteor.call('testPaymentRequestEvents', this._id, 'reject');
+    Meteor.call('rejectPaymentRequest', this._id);
   },
   'click button.send_complete': function() {
-    Meteor.call('testPaymentRequestEvents', this._id, 'complete');
+    Meteor.call('completePaymentRequest', this._id);
   }
 });
 
