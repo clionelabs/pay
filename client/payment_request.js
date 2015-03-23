@@ -11,15 +11,6 @@ Template.paymentRequest.helpers({
   }
 });
 
-Template.paymentRequestAuthorizingAction.helpers({
-  authorizationURLNew: function() {
-    return Router.url("paymentRequestAuthorizationNew", {_id: this._id});
-  },
-  authorizationURLReturn: function() {
-    return Router.url("paymentRequestAuthorizationReturn", {_id: this._id});
-  } 
-});
-
 Template.paymentRequest.events({
   'click button.return_list': function() {
     Router.go("paymentRequests");
