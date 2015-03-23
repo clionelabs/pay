@@ -34,8 +34,8 @@ Template.paymentRequestNewAuthorization.rendered = function() {
       // So we simply allow sending request to our server once 
       if (requestSent) return; // There is no way to  
       resquestSent = true;
-      Meteor.call('authorizePaymentRequestWithNonce', data, function(err, result) {
-        handleAuthorizationCallback(result, data.paymentRequestId);
+      Meteor.call('authorizePaymentRequestWithNonce', data, function(err) {
+        handleAuthorizationCallback(!err, data.paymentRequestId);
       });
     }
   });
@@ -60,9 +60,9 @@ Template.paymentRequestReturnAuthorization.events({
   'click button.authorize': function() {
     $("button.authorize").attr("disabled", true);
     var data = {paymentRequestId: this.paymentRequestDoc._id, passcode: $("#passcode").val()};
-    Meteor.call('authorizePaymentRequest', data, function(err, result) {
+    Meteor.call('authorizePaymentRequest', data, function(err) {
       $("button.authorize").removeAttr("disabled");
-      handleAuthorizationCallback(result, data.paymentRequestId);
+      handleAuthorizationCallback(!err, data.paymentRequestId);
     });
   },
 

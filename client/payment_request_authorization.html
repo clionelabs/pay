@@ -33,8 +33,8 @@
 <template name="paymentRequestDetails">
   <div>
     In order to pay on your behalf, please authorize us to
-    charge ${{bill.amount}} for your {{bill.company}}'s bill on {{bill.title}} and ${{serviceFee}} for our <a href="">service fee</a>
-    on or before {{bill.deadline}}.
+    charge ${{formatAmount}} for your {{company}}'s bill on {{title}} and ${{formatServiceFee}} for our <a href="">service fee</a>
+    on or before {{deadline}}.
     <br><br>
     Credit card payment is securely processed using <a href="https://paypal.com">PayPal</a>.
   </div>

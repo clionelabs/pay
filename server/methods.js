@@ -91,12 +91,20 @@ Meteor.methods({
     var customer = paymentRequest.getCustomer();
 
     var result = customer.createVault(data.nonce);
-    if (!result) return false;
+    if (!result) {
+      throw Meteor.Error("Authorization Error", "Failed to create payment method");
+    }
 
     var result2 = customer.charge(paymentRequest);
-    if (!result2) return false;
+    if (!result) {
+      throw Meteor.Error("Authorization Error", "Failed to charge");
+    }
 
-    paymentRequest.authorize();
+    try {
+      paymentRequest.authorize();
+    } catch (error) {
+      throw Meteor.Error("Authorization Error", "Failed to authorize");
+    }
 
     return true;
   },
@@ -109,9 +117,15 @@ Meteor.methods({
     var customer = paymentRequest.getCustomer();
 
     var result = customer.charge(paymentRequest);
-    if (!result) return false;
+    if (!result) {
+      throw Meteor.Error("Authorization Error", "Failed to charge");
+    }
 
-    paymentRequest.authorize();
+    try {
+      paymentRequest.authorize();
+    } catch (error) {
+      throw Meteor.Error("Authorization Error", "Failed to authorize");
+    }
 
     return true;
   }
