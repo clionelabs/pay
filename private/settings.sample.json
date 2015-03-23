@@ -16,5 +16,10 @@
     "publicKey": "",
     "privateKey": "",
     "merchantId": ""
+  },
+
+  "kadira": {
+    "appId" : "<APP_ID>",
+    "appSecret" : "<APP_SECRET>"
   }
 }

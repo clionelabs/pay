@@ -2,7 +2,7 @@
   <div id="create_payment_request_container">
     <h1>Create Payment Request</h1>
     <div>
-      {{> quickForm schema=Schemas.CreatePaymentRequestForm id="createPaymentRequestForm" type="method" meteormethod="createPaymentRequest"}}
+      {{> quickForm collection="PaymentRequests" schema=Schemas.PaymentRequestForm id="billForm" type="insert" }}
     </div>
   </div>
 </template>

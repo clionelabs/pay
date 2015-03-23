@@ -27,6 +27,10 @@ Template.paymentRequest.events({
   'click button.edit' : function() {
     Router.go('editPaymentRequest', this);
   },
+  'click button.send_again' : function() {
+
+    Meteor.call('sendAuthEmail', this._id);
+  },
   'click button.send_accept': function() {
     Meteor.call('acceptPaymentRequest', this._id);
   },

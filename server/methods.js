@@ -20,6 +20,10 @@ Meteor.methods({
     }
   },
 
+  sendAuthEmail : function(paymentRequestId) {
+    var paymentRequest = PaymentRequests.findOne(paymentRequestId);
+    Email.Authorization.send(paymentRequest.bill.email, paymentRequest);
+  },
   acceptPaymentRequest: function(paymentRequestId) {
     var paymentRequest = PaymentRequests.findOne(paymentRequestId);
     paymentRequest.accept();
@@ -55,11 +59,6 @@ Meteor.methods({
       }
     }
     return data;
-  },
-
-  createPaymentRequest: function(data) {
-    var paymentRequestId = PaymentRequests.createWithBill(data);
-    return paymentRequestId;
   },
 
   authorizePaymentRequestWithNonce: function(data) {

@@ -16,7 +16,7 @@
           </div>
           <div class="row">
             <div class="col-sm-2">Recipient:</div>
-            <div class="col-sm-10">{{bill.recipientFirstName}} {{bill.recipientLastName}}</div>
+            <div class="col-sm-10">{{ recipient }}</div>
           </div>
           <div class="row">
             <div class="col-sm-2">Description:</div>
@@ -24,7 +24,7 @@
           </div>
           <div class="row">
             <div class="col-sm-2">Charge:</div>
-            <div class="col-sm-10">{{bill.currency}} {{bill.amount}}</div>
+            <div class="col-sm-10">{{ printAmount }}</div>
           </div>
           <div class="row">
             <div class="col-sm-2">Copmany:</div>
@@ -96,7 +96,8 @@
 
 <template name="paymentRequestAuthorizingAction">
   <div>An authorization email has already been sent to customer. The authorization URL below is what they are seeing:</div>
-  Customer Authorization Page: <a target="_blank" href="{{authorizationURL}}">View</a>
+  <div><button class="send_again btn btn-primary">Send Again</button></div>
+  Customer Authorization Page: <a target="_blank" href="{{urlFor route="paymentRequestAuthorization"}}">View</a>
 </template>
 
 <template name="paymentRequestProcessingAction">
