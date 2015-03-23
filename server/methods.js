@@ -23,7 +23,7 @@ Meteor.methods({
   sendAuthEmail : function(paymentRequestId) {
     var paymentRequest = PaymentRequests.findOne(paymentRequestId);
     Email.Authorization.send(paymentRequest.bill.email, paymentRequest);
-
+  },
   acceptPaymentRequest: function(paymentRequestId) {
     var paymentRequest = PaymentRequests.findOne(paymentRequestId);
     paymentRequest.accept();
@@ -37,7 +37,6 @@ Meteor.methods({
   completePaymentRequest: function(paymentRequestId) {
     var paymentRequest = PaymentRequests.findOne(paymentRequestId);
     paymentRequest.complete();
->>>>>>> origin/master
   },
 
   getPaymentRequestAuthorizationInfo: function(paymentRequestId) {
