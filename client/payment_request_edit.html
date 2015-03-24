@@ -1,4 +1,49 @@
 <template name="editPaymentRequest">
+  <div class="page-header">
+    <button class="return_list">Back</button>
+  </div>
+
   {{> paymentRequestRaw }}
-  {{> quickForm collection="PaymentRequests" schema=Schemas.PaymentRequestForm doc=this id="billForm" type="update"}}
+  <div id="create_payment_request_container">
+    <h1>Edit Payment Request</h1>
+    <div>
+      {{#autoForm schema=Schemas.EditPaymentRequestForm id="editPaymentRequestForm" type="method" meteormethod="editPaymentRequest"}}
+        {{> afQuickField name='paymentRequestId' type="hidden" value=_id}}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Customer</h3>
+          </div>
+          <div class="panel-body">
+            {{#with customer}}
+              <div class="row">
+                <div class="col-sm-2">Email:</div>
+                <div class="col-sm-10">
+                  {{> afQuickField name='customerEmail' type="hidden" value=email}}
+                  {{email}}
+                </div>
+              </div>
+              {{> afQuickField name='customerFirstName' value=firstName}}
+              {{> afQuickField name='customerLastName' value=lastName}}
+            {{/with}}
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Bill</h3>
+          </div>
+          <div class="panel-body">
+            {{> afQuickField name='bill.title' value=bill.title}}
+            {{> afQuickField name='bill.description' value=bill.description}}
+            {{> afQuickField name='bill.company' value=bill.company}}
+            {{> afQuickField name='bill.currency' value=bill.currency options="allowed"}}
+            {{> afQuickField name='bill.amount' value=bill.amount}}
+            {{> afQuickField name='bill.deadline' value=bill.deadline}}
+            {{> afQuickField name='bill.notes' value=bill.notes}}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      {{/autoForm}}
+    </div>
+  </div>
 </template>

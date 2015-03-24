@@ -8,6 +8,10 @@ Template.paymentRequest.helpers({
 
   logTime: function(timestamp) {
     return moment(timestamp).format();
+  },
+
+  customer: function() {
+    return this.getCustomer();
   }
 });
 

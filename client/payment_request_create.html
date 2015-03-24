@@ -2,7 +2,34 @@
   <div id="create_payment_request_container">
     <h1>Create Payment Request</h1>
     <div>
-      {{> quickForm collection="PaymentRequests" schema=Schemas.PaymentRequestForm id="billForm" type="insert" }}
+      {{#autoForm schema=Schemas.PaymentRequestForm id="createPaymentRequestForm" type="method" meteormethod="createPaymentRequest"}}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Customer</h3>
+          </div>
+          <div class="panel-body">
+            {{> afQuickField name='customerEmail'}}
+            {{> afQuickField name='customerFirstName'}}
+            {{> afQuickField name='customerLastName'}}
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Bill</h3>
+          </div>
+          <div class="panel-body">
+            {{> afQuickField name='bill.title'}}
+            {{> afQuickField name='bill.description'}}
+            {{> afQuickField name='bill.company'}}
+            {{> afQuickField name='bill.currency' options="allowed"}}
+            {{> afQuickField name='bill.amount'}}
+            {{> afQuickField name='bill.deadline'}}
+            {{> afQuickField name='bill.notes'}}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      {{/autoForm}}
     </div>
   </div>
 </template>
