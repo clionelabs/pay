@@ -1,0 +1,95 @@
+body {
+  font-family: 'Fira Sans', sans-serif;
+  background: #f3f3f3;
+}
+
+section.main {
+  background-image: url("/images/main_bg.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  text-align: center;
+  padding:0px 15px;
+}
+
+.main .navbar-header {
+  margin-top: 15px;
+}
+
+.main .navbar-header a.navbar-brand {
+  font-weight: 700;
+  font-size: 26px;
+  font-family: Arial;
+  color: #efefef;
+}
+
+.main .pay {
+  width:100%;
+}
+
+.main button, .main h1, .main i {
+  color: #efefef;
+  font-weight: 200;
+}
+
+.main .sub-slogan {
+  margin-bottom: 15px;
+}
+
+.main button {
+  font-size: 16px;
+  background: rgba(255,255,255,0.3);
+  padding: 10px 30px;
+  border: 1px #efefef solid;
+  border-radius: 35px;
+  margin-bottom: 45px;
+
+}
+
+section.main, section.how-it-works, section.faq {
+  margin-bottom: 100px;
+}
+section.main h1, section.how-it-works h1, section.faq h1{
+  margin-bottom: 50px;
+}
+
+section.how-it-works, section.faq h1 {
+  text-align: center;
+}
+
+.how-it-works h1, .how-it-works p, .faq h1, .faq p{
+  font-weight: 300;
+}
+
+.how-it-works h1, .how-it-works h4, .faq h1, .faq h4 {
+  color: #003D6A;
+}
+
+footer {
+  background-color: #003D6A;
+  color: #efefef;
+  padding: 15px;
+  height: 100px;
+  font-weight: 300;
+}
+
+footer .row {
+  padding: 15px;
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+footer a {
+  color: #efefef;
+}
+footer a:hover {
+  color: #bcbcbc;
+}
+
+footer .links {
+  text-align: right;
+}
+

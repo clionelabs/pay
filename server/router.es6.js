@@ -40,3 +40,12 @@ Router.route('webhooks/bill_received', {
   },
   where : 'server'
 });
+
+Router.route('/', {
+  name : 'marketing',
+  action() {
+    let contents = Assets.getText('static/index.html');
+    this.response.end(contents);
+  },
+  where : 'server'
+});
