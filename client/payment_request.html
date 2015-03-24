@@ -14,10 +14,8 @@
             <div class="col-sm-2">Customer:</div>
             <div class="col-sm-10">
               <div class="well">
-                {{#with customer}}
-                  <div>Email: {{email}}</div>
-                  <div>Name: {{firstName}} {{lastName}}</div>
-                {{/with}}
+                <div>Email: {{customer.email}}</div>
+                <div>Name: {{customer.firstName}} {{customer.lastName}}</div>
               </div>
             </div>
           </div>

@@ -14,17 +14,15 @@
             <h3 class="panel-title">Customer</h3>
           </div>
           <div class="panel-body">
-            {{#with customer}}
-              <div class="row">
-                <div class="col-sm-2">Email:</div>
-                <div class="col-sm-10">
-                  {{> afQuickField name='customerEmail' type="hidden" value=email}}
-                  {{email}}
-                </div>
+            <div class="row">
+              <div class="col-sm-2">Email:</div>
+              <div class="col-sm-10">
+                {{> afQuickField name='customerEmail' type="hidden" value=customer.email}}
+                {{customer.email}}
               </div>
-              {{> afQuickField name='customerFirstName' value=firstName}}
-              {{> afQuickField name='customerLastName' value=lastName}}
-            {{/with}}
+            </div>
+            {{> afQuickField name='customerFirstName' value=customer.firstName}}
+            {{> afQuickField name='customerLastName' value=customer.lastName}}
           </div>
         </div>
 
