@@ -1,3 +1,9 @@
+Template.paymentRequestRow.helpers({
+  customer: function() {
+    return this.getCustomer(); 
+  }
+});
+
 Template.paymentRequests.events({
   'click #create_button': function() {
     Router.go("createPaymentRequest");

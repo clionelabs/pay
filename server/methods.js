@@ -81,6 +81,29 @@ Meteor.methods({
     }
   },
 
+  createPaymentRequest: function(data) {
+    PaymentRequests.createWithForm(data);
+  },
+
+  editPaymentRequest: function(data) {
+    PaymentRequests.editWithForm(data);
+  },
+
+  lookupCustomerEmail: function(email) {
+    var customer = Customers.findOne({email: email});
+    if (customer) {
+      return {
+        found: true,
+        firstName: customer.firstName,
+        lastName: customer.lastName
+      }
+    } else {
+      return {
+        found: false
+      }
+    }
+  },
+
   verifyAuthorizationPasscode: function(paymentRequestId, passcode) {
     var paymentRequest = PaymentRequests.findOne(paymentRequestId);
     return paymentRequest.passcode === passcode;
