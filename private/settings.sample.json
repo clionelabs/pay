@@ -21,5 +21,10 @@
   "kadira": {
     "appId" : "<APP_ID>",
     "appSecret" : "<APP_SECRET>"
+  },
+
+  "adminAccount": {
+    "email": "admin@askdouble.com",
+    "password": "123"
   }
 }

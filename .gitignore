@@ -12,3 +12,4 @@ packages/
 
 #project specific
 /private/settings.json
+/server/settings.json

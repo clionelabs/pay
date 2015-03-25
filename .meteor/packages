@@ -27,3 +27,6 @@ momentjs:moment
 gfk:notifications
 rajit:bootstrap3-datepicker
 aldeed:autoform-bs-datepicker
+accounts-base
+accounts-password
+accounts-ui
