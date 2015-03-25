@@ -1,9 +1,13 @@
 <template name="paymentRequestAuthorization">
   {{> notifications}}
-  <h1>Payment Authorization</h1>
-  <div>
-    {{> Template.dynamic template=contentTemplate}}
+  {{> header }}
+  <div class="container">
+    <h1>Payment Authorization</h1>
+    <div>
+      {{> Template.dynamic template=contentTemplate}}
+    </div>
   </div>
+  {{> footer }}
 </template>
 
 <template name="paymentRequestAuthorized">
