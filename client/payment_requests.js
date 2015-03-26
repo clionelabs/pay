@@ -7,6 +7,10 @@ Template.paymentRequestRow.helpers({
 Template.paymentRequests.events({
   'click #create_button': function() {
     Router.go("createPaymentRequest");
+  },
+
+  'click #logout_button': function() {
+    Meteor.logout();
   }
 });
 

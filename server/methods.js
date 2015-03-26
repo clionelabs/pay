@@ -1,6 +1,14 @@
+var adminCheck = function() {
+  if (!Meteor.user()) {
+    throw new Meteor.Error(403, "Access denied")
+  }
+}
+
 Meteor.methods({
   // Temporary method to test state transitions/ events triggers
   testPaymentRequestEvents: function(paymentRequestId, event) {
+    adminCheck();
+
     try {
       var paymentRequest = PaymentRequests.findOne(paymentRequestId);
       console.log("[methods] testPaymentRequestEvents: ", paymentRequestId, event);
@@ -21,22 +29,59 @@ Meteor.methods({
   },
 
   sendAuthEmail : function(paymentRequestId) {
+    adminCheck();
+
     var paymentRequest = PaymentRequests.findOne(paymentRequestId);
     Email.Authorization.send(paymentRequest.bill.email, paymentRequest);
   },
   acceptPaymentRequest: function(paymentRequestId) {
+    adminCheck();
+
     var paymentRequest = PaymentRequests.findOne(paymentRequestId);
     paymentRequest.accept();
   },
 
   rejectPaymentRequest: function(paymentRequestId) {
+    adminCheck();
+
     var paymentRequest = PaymentRequests.findOne(paymentRequestId);
     paymentRequest.reject();
   },
 
   completePaymentRequest: function(paymentRequestId) {
+    adminCheck();
+
     var paymentRequest = PaymentRequests.findOne(paymentRequestId);
     paymentRequest.complete();
+  },
+
+  createPaymentRequest: function(data) {
+    adminCheck();
+
+    PaymentRequests.createWithForm(data);
+  },
+
+  editPaymentRequest: function(data) {
+    adminCheck();
+
+    PaymentRequests.editWithForm(data);
+  },
+
+  lookupCustomerEmail: function(email) {
+    adminCheck();
+
+    var customer = Customers.findOne({email: email});
+    if (customer) {
+      return {
+        found: true,
+        firstName: customer.firstName,
+        lastName: customer.lastName
+      }
+    } else {
+      return {
+        found: false
+      }
+    }
   },
 
   getPaymentRequestAuthorizationInfo: function(paymentRequestId) {
@@ -78,29 +123,6 @@ Meteor.methods({
         clientToken: clientToken
       }
       return data;
-    }
-  },
-
-  createPaymentRequest: function(data) {
-    PaymentRequests.createWithForm(data);
-  },
-
-  editPaymentRequest: function(data) {
-    PaymentRequests.editWithForm(data);
-  },
-
-  lookupCustomerEmail: function(email) {
-    var customer = Customers.findOne({email: email});
-    if (customer) {
-      return {
-        found: true,
-        firstName: customer.firstName,
-        lastName: customer.lastName
-      }
-    } else {
-      return {
-        found: false
-      }
     }
   },
 
